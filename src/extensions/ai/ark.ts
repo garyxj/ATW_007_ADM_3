@@ -46,8 +46,9 @@ export class ArkProvider implements AIProvider {
     let images: AIImage[] | undefined;
     let imageUrl: string | undefined;
     if (data?.data && data?.data[0]?.url) {
-      imageUrl = data.data[0].url;
-      images = [{ imageUrl, createTime: new Date() }];
+      const url: string = data.data[0].url;
+      imageUrl = url;
+      images = [{ imageUrl: url, createTime: new Date() }];
     }
 
     return {
@@ -58,4 +59,3 @@ export class ArkProvider implements AIProvider {
     };
   }
 }
-

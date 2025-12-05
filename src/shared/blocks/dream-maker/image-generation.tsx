@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { Loader2, Sparkles, ArrowLeft, RefreshCw, AlertCircle } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
-import type { DreamData } from "@/app/[locale]/(v0)/dream-maker/page";
+import type { DreamData } from "@/app/[locale]/(landing)/dream-maker/page";
 
 function useGenSteps(t: (k: string) => string) {
   return [t("gen_step_1"), t("gen_step_2"), t("gen_step_3"), t("gen_step_4"), t("gen_step_5")];

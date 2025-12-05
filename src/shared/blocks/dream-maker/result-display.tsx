@@ -7,7 +7,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import { Input } from "@/shared/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/ui/dropdown-menu";
-import type { DreamData } from "@/app/[locale]/(v0)/dream-maker/page";
+import type { DreamData } from "@/app/[locale]/(landing)/dream-maker/page";
 
 export default function ResultDisplay({ dreamData, onReset }: { dreamData: DreamData; onReset: () => void; }) {
   const t = useTranslations("dreammaker");

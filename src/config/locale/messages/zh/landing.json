@@ -9,12 +9,17 @@
       },
       "url": "/"
     },
-    "nav": {
+  "nav": {
       "items": [
         {
-          "title": "功能亮点",
-          "url": "/#features",
-          "icon": "Sparkles"
+          "title": "梦想制造机",
+          "url": "/dream-maker",
+          "icon": "RiSparkling2Line"
+        },
+        {
+          "title": "案例展示",
+          "url": "/showcases",
+          "icon": "Box"
         },
         {
           "title": "价格",
@@ -22,42 +27,12 @@
           "icon": "DollarSign"
         },
         {
-          "title": "AI",
-          "icon": "RiRobot2Line",
-          "children": [
-            {
-              "title": "梦想制造机",
-              "description": "将儿童照片生成未来职业形象",
-              "url": "/dream-maker",
-              "icon": "RiSparkling2Line"
-            },
-            {
-              "title": "AI 图片生成器",
-              "description": "使用 AI 生成图片",
-              "url": "/ai-image-generator",
-              "icon": "RiImage2Line"
-            },
-            {
-              "title": "AI 音乐生成器",
-              "description": "使用 AI 生成美妙的音乐",
-              "url": "/ai-music-generator",
-              "icon": "RiMusic2Line"
-            },
-            {
-              "title": "AI 聊天机器人",
-              "description": "与 AI 聊天机器人对话",
-              "url": "/chat",
-              "icon": "RiMessage2Line"
-            }
-          ]
-        },
-        {
           "title": "博客",
           "url": "/blog",
           "icon": "Newspaper"
         }
       ]
-    },
+  },
     "buttons": [],
     "user_nav": {
       "show_name": true,

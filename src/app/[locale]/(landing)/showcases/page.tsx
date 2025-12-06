@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getThemePage } from '@/core/theme';
 import { getMetadata } from '@/shared/lib/seo';
+import { getShowcases } from '@/shared/models/showcase';
 import {
   CTA as CTAType,
   Showcases as ShowcasesType,
@@ -23,14 +24,24 @@ export default async function ShowcasesPage({
   // load landing data
   const tl = await getTranslations('landing');
 
-  // load showcases data
+  // load showcases i18n (仅用于标题/描述)
   const t = await getTranslations('showcases');
 
   // load page component
   const Page = await getThemePage('showcases');
 
   // build sections
-  const showcases: ShowcasesType = t.raw('showcases');
+  const showcasesI18n: ShowcasesType = t.raw('showcases');
+  const rows = await getShowcases({ locale, status: 'active', page: 1, limit: 100 });
+  const showcases: ShowcasesType = {
+    ...showcasesI18n,
+    items: rows.map((r) => ({
+      image: { src: r.imageUrl || '/images/placeholder.png', alt: r.title },
+      title: r.title,
+      description: r.summary || '',
+      url: `/showcases/${r.slug}`,
+    })),
+  };
   const cta: CTAType = tl.raw('cta');
 
   return <Page locale={locale} showcases={showcases} cta={cta} />;

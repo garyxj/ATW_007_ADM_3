@@ -539,3 +539,32 @@ export const chatMessage = pgTable(
     index('idx_chat_message_user_id').on(table.userId, table.status),
   ]
 );
+
+// Career Showcases: children-oriented career introductions
+export const careerShowcase = pgTable(
+  'career_showcase',
+  {
+    id: text('id').primaryKey(),
+    slug: text('slug').unique().notNull(),
+    locale: text('locale').notNull().default('en'),
+    title: text('title').notNull(),
+    subtitle: text('subtitle'),
+    imageUrl: text('image_url'),
+    summary: text('summary'),
+    responsibilities: text('responsibilities'),
+    significance: text('significance'),
+    howToBecome: text('how_to_become'),
+    status: text('status').notNull().default('active'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at')
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+  },
+  (table) => [
+    index('idx_career_showcase_slug').on(table.slug),
+    index('idx_career_showcase_locale_status').on(
+      table.locale,
+      table.status
+    ),
+  ]
+);

@@ -17,11 +17,6 @@
           "icon": "Sparkles"
         },
         {
-          "title": "Showcases",
-          "url": "/showcases",
-          "icon": "Box"
-        },
-        {
           "title": "Pricing",
           "url": "/pricing",
           "icon": "DollarSign"
@@ -60,11 +55,6 @@
           "title": "Blog",
           "url": "/blog",
           "icon": "Newspaper"
-        },
-        {
-          "title": "Docs",
-          "url": "/docs",
-          "icon": "BookOpenText"
         }
       ]
     },
@@ -108,13 +98,6 @@
         "url": "/pricing",
         "target": "_self",
         "variant": "default"
-      },
-      {
-        "title": "Read Document",
-        "icon": "BookOpenText",
-        "url": "/docs",
-        "target": "_blank",
-        "variant": "outline"
       }
     ],
     "show_avatars": true,
@@ -456,13 +439,6 @@
         "url": "https://shipany.ai",
         "target": "_blank",
         "icon": "Zap"
-      },
-      {
-        "title": "Read Document",
-        "url": "/docs",
-        "target": "_blank",
-        "variant": "outline",
-        "icon": "BookOpenText"
       }
     ]
   },
@@ -501,11 +477,7 @@
               "url": "/#features",
               "target": "_self"
             },
-            {
-              "title": "Showcases",
-              "url": "/showcases",
-              "target": "_self"
-            },
+            
             {
               "title": "Pricing",
               "url": "/pricing",
@@ -516,11 +488,7 @@
         {
           "title": "Resources",
           "children": [
-            {
-              "title": "Documents",
-              "url": "/docs",
-              "target": "_self"
-            },
+            
             {
               "title": "Blog",
               "url": "/blog",

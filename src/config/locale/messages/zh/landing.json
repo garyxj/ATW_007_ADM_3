@@ -17,11 +17,6 @@
           "icon": "Sparkles"
         },
         {
-          "title": "案例展示",
-          "url": "/showcases",
-          "icon": "Box"
-        },
-        {
           "title": "价格",
           "url": "/pricing",
           "icon": "DollarSign"
@@ -60,11 +55,6 @@
           "title": "博客",
           "url": "/blog",
           "icon": "Newspaper"
-        },
-        {
-          "title": "文档",
-          "url": "/docs",
-          "icon": "BookOpenText"
         }
       ]
     },
@@ -108,13 +98,6 @@
         "url": "/pricing",
         "target": "_self",
         "variant": "default"
-      },
-      {
-        "title": "阅读文档",
-        "icon": "BookOpenText",
-        "url": "/docs",
-        "target": "_blank",
-        "variant": "outline"
       }
     ],
     "show_avatars": true,
@@ -456,13 +439,6 @@
         "url": "https://shipany.ai",
         "target": "_blank",
         "icon": "Zap"
-      },
-      {
-        "title": "阅读文档",
-        "url": "/docs",
-        "target": "_blank",
-        "variant": "outline",
-        "icon": "BookOpenText"
       }
     ]
   },
@@ -501,11 +477,7 @@
               "url": "/#features",
               "target": "_self"
             },
-            {
-              "title": "案例展示",
-              "url": "/showcases",
-              "target": "_self"
-            },
+            
             {
               "title": "价格",
               "url": "/pricing",
@@ -516,11 +488,7 @@
         {
           "title": "资源",
           "children": [
-            {
-              "title": "文档",
-              "url": "/docs",
-              "target": "_self"
-            },
+            
             {
               "title": "博客",
               "url": "/blog",

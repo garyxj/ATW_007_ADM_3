@@ -49,7 +49,7 @@
             "amount": 69900,
             "price": "¥699",
             "original_price": "¥1399",
-            "payment_providers": ["stripe"]
+            "payment_providers": ["creem"]
           }
         ],
         "unit": "",

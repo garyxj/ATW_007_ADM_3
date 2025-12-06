@@ -99,7 +99,9 @@ export default function ImageGeneration({ dreamData, onImageGenerated, onBack }:
         body: JSON.stringify({ imageBase64: imageData, prompt: enhancedPrompt }),
       });
       clearInterval(progressInterval);
-      const responseData = await response.json();
+      const text = await response.text();
+      let responseData: any;
+      try { responseData = JSON.parse(text); } catch { responseData = { error: text }; }
       if (!response.ok) throw new Error(responseData.error || "Generation failed");
       if (responseData.status === "SUCCEEDED" && responseData.imageUrl) {
         setProgress(100);

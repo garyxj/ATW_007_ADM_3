@@ -22,10 +22,11 @@ export class ArkProvider implements AIProvider {
       model: params.model || 'doubao-seedream-4-5-251128',
       prompt: params.prompt,
       image: params.options?.imageBase64,
-      size: params.options?.size || '1920x1920',
+      size: params.options?.size || '1024x1024',
       watermark: false,
     };
-
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 50000);
     const resp = await fetch(this.baseUrl, {
       method: 'POST',
       headers: {
@@ -33,7 +34,9 @@ export class ArkProvider implements AIProvider {
         Authorization: `Bearer ${this.configs.apiKey}`,
       },
       body: JSON.stringify(body),
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const text = await resp.text();
     if (!resp.ok) {

@@ -17,32 +17,51 @@ export class ArkProvider implements AIProvider {
     if (params.mediaType !== AIMediaType.IMAGE) {
       throw new Error(`mediaType not supported: ${params.mediaType}`);
     }
+    const defaultSize = params.options?.size || process.env.ARK_IMAGE_SIZE || '1024x1024';
+    const timeoutMs = Number(process.env.ARK_REQUEST_TIMEOUT_MS || 20000);
 
-    const body = {
-      model: params.model || 'doubao-seedream-4-5-251128',
-      prompt: params.prompt,
-      image: params.options?.imageBase64,
-      size: params.options?.size || '1024x1024',
-      watermark: false,
-    };
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 50000);
-    const resp = await fetch(this.baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.configs.apiKey}`,
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-    clearTimeout(timeout);
+    async function call(size: string) {
+      const body = {
+        model: params.model || 'doubao-seedream-4-5-251128',
+        prompt: params.prompt,
+        image: params.options?.imageBase64,
+        size,
+        watermark: false,
+      };
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      const resp = await fetch(this.baseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.configs.apiKey}`,
+        },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      const text = await resp.text();
+      return { resp, text };
+    }
 
-    const text = await resp.text();
-    if (!resp.ok) {
-      let err: any;
-      try { err = JSON.parse(text); } catch { err = { message: text }; }
-      throw new Error(err?.message || err?.error?.message || `Failed: ${resp.status}`);
+    const first = await call.call(this, defaultSize);
+    let text = first.text;
+    if (!first.resp.ok) {
+      const status = first.resp.status;
+      const fallbackSize = defaultSize === '1024x1024' ? '768x768' : defaultSize;
+      if (status >= 500 || status === 504) {
+        const second = await call.call(this, fallbackSize);
+        text = second.text;
+        if (!second.resp.ok) {
+          let err: any;
+          try { err = JSON.parse(text); } catch { err = { message: text }; }
+          throw new Error(err?.message || err?.error?.message || `Failed: ${second.resp.status}`);
+        }
+      } else {
+        let err: any;
+        try { err = JSON.parse(text); } catch { err = { message: text }; }
+        throw new Error(err?.message || err?.error?.message || `Failed: ${status}`);
+      }
     }
 
     const data = JSON.parse(text);

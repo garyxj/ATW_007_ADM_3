@@ -16,7 +16,11 @@ export async function POST(req: Request) {
 
     const provider = new ArkProvider({ apiKey });
     const result = await provider.generate({
-      params: { mediaType: AIMediaType.IMAGE, prompt, options: { imageBase64, size: '1920x1920' } },
+      params: {
+        mediaType: AIMediaType.IMAGE,
+        prompt,
+        options: { imageBase64, size: process.env.ARK_IMAGE_SIZE || '1024x1024' },
+      },
     });
 
     const rawUrl = result.taskInfo?.images?.[0]?.imageUrl;
@@ -42,4 +46,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
-

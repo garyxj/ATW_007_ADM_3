@@ -13,7 +13,10 @@ export const authOptions = {
   appName: envConfigs.app_name,
   baseURL: envConfigs.auth_url,
   secret: envConfigs.auth_secret,
-  trustedOrigins: envConfigs.app_url ? [envConfigs.app_url] : [],
+  trustedOrigins: [
+    envConfigs.app_url,
+    ...((envConfigs as any).additional_origins || []),
+  ].filter(Boolean),
   advanced: {
     database: {
       generateId: () => getUuid(),

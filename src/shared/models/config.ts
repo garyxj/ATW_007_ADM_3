@@ -72,8 +72,15 @@ export async function getAllConfigs(): Promise<Configs> {
     }
   }
 
+  const envSanitized: Record<string, string> = Object.fromEntries(
+    Object.entries(envConfigs as any).map(([key, value]) => [
+      key,
+      Array.isArray(value) ? (value as any[]).join(',') : String(value ?? ''),
+    ])
+  );
+
   const configs = {
-    ...envConfigs,
+    ...envSanitized,
     ...dbConfigs,
   };
 

@@ -292,23 +292,26 @@ export async function consumeCredits({
 export async function getRemainingCredits(userId: string): Promise<number> {
   const currentTime = new Date();
 
-  const [result] = await db()
-    .select({
-      total: sum(credit.remainingCredits),
-    })
-    .from(credit)
-    .where(
-      and(
-        eq(credit.userId, userId),
-        eq(credit.transactionType, CreditTransactionType.GRANT),
-        eq(credit.status, CreditStatus.ACTIVE),
-        gt(credit.remainingCredits, 0),
-        or(
-          isNull(credit.expiresAt), // Never expires
-          gt(credit.expiresAt, currentTime) // Not yet expired
+  try {
+    const [result] = await db()
+      .select({
+        total: sum(credit.remainingCredits),
+      })
+      .from(credit)
+      .where(
+        and(
+          eq(credit.userId, userId),
+          eq(credit.transactionType, CreditTransactionType.GRANT),
+          eq(credit.status, CreditStatus.ACTIVE),
+          gt(credit.remainingCredits, 0),
+          or(isNull(credit.expiresAt), gt(credit.expiresAt, currentTime))
         )
-      )
-    );
+      );
 
-  return parseInt(result?.total || '0');
+    const total = result?.total;
+    const num = typeof total === 'number' ? total : parseInt(String(total || '0'));
+    return Number.isFinite(num) ? num : 0;
+  } catch {
+    return 0;
+  }
 }

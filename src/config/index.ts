@@ -28,5 +28,13 @@ export const envConfigs = {
   database_provider: process.env.DATABASE_PROVIDER ?? 'postgresql',
   db_singleton_enabled: process.env.DB_SINGLETON_ENABLED || 'false',
   auth_url: process.env.AUTH_URL || process.env.NEXT_PUBLIC_APP_URL || '',
-  auth_secret: process.env.AUTH_SECRET ?? '', // openssl rand -base64 32
+  auth_secret: process.env.AUTH_SECRET ?? '',
+  additional_origins: (
+    process.env.NEXT_PUBLIC_ADDITIONAL_ORIGINS ||
+    process.env.ADDITIONAL_ORIGINS ||
+    ''
+  )
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean),
 };

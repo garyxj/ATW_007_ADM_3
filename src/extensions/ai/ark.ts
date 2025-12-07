@@ -20,7 +20,7 @@ export class ArkProvider implements AIProvider {
     const defaultSize = params.options?.size || process.env.ARK_IMAGE_SIZE || '1024x1024';
     const timeoutMs = Number(process.env.ARK_REQUEST_TIMEOUT_MS || 20000);
 
-    async function call(size: string) {
+    const call = async (size: string) => {
       const body = {
         model: params.model || 'doubao-seedream-4-5-251128',
         prompt: params.prompt,
@@ -42,15 +42,15 @@ export class ArkProvider implements AIProvider {
       clearTimeout(timer);
       const text = await resp.text();
       return { resp, text };
-    }
+    };
 
-    const first = await call.call(this, defaultSize);
+    const first = await call(defaultSize);
     let text = first.text;
     if (!first.resp.ok) {
       const status = first.resp.status;
       const fallbackSize = defaultSize === '1024x1024' ? '768x768' : defaultSize;
       if (status >= 500 || status === 504) {
-        const second = await call.call(this, fallbackSize);
+        const second = await call(fallbackSize);
         text = second.text;
         if (!second.resp.ok) {
           let err: any;

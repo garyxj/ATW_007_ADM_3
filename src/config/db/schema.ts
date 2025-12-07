@@ -5,6 +5,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core';
 
 export const user = pgTable(
@@ -70,6 +71,7 @@ export const account = pgTable(
     password: text('password'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at')
+      .defaultNow()
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
@@ -114,7 +116,7 @@ export const taxonomy = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
     parentId: text('parent_id'),
-    slug: text('slug').unique().notNull(),
+    slug: text('slug').notNull(),
     type: text('type').notNull(),
     title: text('title').notNull(),
     description: text('description'),
@@ -562,9 +564,7 @@ export const careerShowcase = pgTable(
   },
   (table) => [
     index('idx_career_showcase_slug').on(table.slug),
-    index('idx_career_showcase_locale_status').on(
-      table.locale,
-      table.status
-    ),
+    index('idx_career_showcase_locale_status').on(table.locale, table.status),
+    uniqueIndex('uq_career_showcase_slug_locale').on(table.slug, table.locale),
   ]
 );

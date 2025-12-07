@@ -1,5 +1,7 @@
 import { db } from '@/core/db';
-import { post } from '@/config/db/schema';
+import { post, user } from '@/config/db/schema';
+import { eq } from 'drizzle-orm';
+import crypto from 'crypto';
 
 type BlogSeed = { slug: string; title: string; summary: string; content: string; cover?: string };
 
@@ -36,29 +38,39 @@ const seeds: BlogSeed[] = [
  * 将专题文章写入现有 post 表（type=blog，status=active）
  */
 async function main() {
+  const [author] = await db().select({ id: user.id }).from(user).where(eq(user.email, 'gary.xj@foxmail.com'));
+  if (!author?.id) {
+    throw new Error('Author user not found: please ensure gary.xj@foxmail.com exists');
+  }
+
   for (const s of seeds) {
+    const data: typeof post.$inferInsert = {
+      id: crypto.randomUUID(),
+      userId: author.id,
+      slug: s.slug,
+      type: 'article',
+      title: s.title,
+      description: s.summary,
+      image: s.cover,
+      content: s.content,
+      status: 'published',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
     await db()
       .insert(post)
-      .values({
-        slug: s.slug,
-        title: s.title,
-        summary: s.summary,
-        content: s.content,
-        coverImage: s.cover,
-        type: 'blog',
-        status: 'active',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
+      .values(data)
       .onConflictDoUpdate({
         target: post.slug,
         set: {
+          type: 'article',
           title: s.title,
-          summary: s.summary,
+          description: s.summary,
           content: s.content,
-          coverImage: s.cover,
+          image: s.cover,
+          status: 'published',
           updatedAt: new Date(),
-          status: 'active',
         },
       });
   }
@@ -69,4 +81,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

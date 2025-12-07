@@ -32,16 +32,21 @@ export default async function ShowcasesPage({
 
   // build sections
   const showcasesI18n: ShowcasesType = t.raw('showcases');
-  const rows = await getShowcases({ locale, status: 'active', page: 1, limit: 100 });
-  const showcases: ShowcasesType = {
-    ...showcasesI18n,
-    items: rows.map((r) => ({
-      image: { src: r.imageUrl || '/images/placeholder.png', alt: r.title },
-      title: r.title,
-      description: r.summary || '',
-      url: `/showcases/${r.slug}`,
-    })),
-  };
+  let showcases: ShowcasesType = showcasesI18n;
+  try {
+    const rows = await getShowcases({ locale, status: 'active', page: 1, limit: 100 });
+    showcases = {
+      ...showcasesI18n,
+      items: rows.map((r) => ({
+        image: { src: r.imageUrl || '/images/placeholder.png', alt: r.title },
+        title: r.title,
+        description: r.summary || '',
+        url: `/showcases/${r.slug}`,
+      })),
+    };
+  } catch {
+    showcases = showcasesI18n;
+  }
   const cta: CTAType = tl.raw('cta');
 
   return <Page locale={locale} showcases={showcases} cta={cta} />;

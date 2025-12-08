@@ -1,14 +1,22 @@
 import { NextResponse } from 'next/server';
 import { ArkProvider } from '@/extensions/ai/ark';
 import { AIMediaType } from '@/extensions/ai';
+import { consumeCredits, getRemainingCredits } from '@/shared/models/credit';
+import { getUserInfo } from '@/shared/models/user';
 
 // Ensure serverless runtime (not edge) and allow longer execution window on platforms like Vercel
 export const runtime = 'nodejs';
 export const maxDuration = 60;
+const SEEDREAM_COST = Number(process.env.SEEDREAM_CREDIT_COST || 10);
 
 export async function POST(req: Request) {
   try {
     const { imageBase64, prompt } = await req.json();
+
+    const user = await getUserInfo();
+    if (!user?.id) {
+      return NextResponse.json({ error: 'no auth, please sign in' }, { status: 401 });
+    }
 
     const approxKb = imageBase64 ? Math.round((imageBase64.length * 3) / 4 / 1024) : 0;
     const maxKb = Number(process.env.ARK_MAX_IMAGE_KB || 6000);
@@ -22,6 +30,14 @@ export async function POST(req: Request) {
 
     if (!imageBase64 || !prompt) {
       return NextResponse.json({ error: 'Missing required fields: imageBase64 and prompt' }, { status: 400 });
+    }
+
+    const remaining = await getRemainingCredits(user.id);
+    if (remaining < SEEDREAM_COST) {
+      return NextResponse.json(
+        { error: `Insufficient credits, need ${SEEDREAM_COST}, remaining ${remaining}` },
+        { status: 402 }
+      );
     }
 
     if (approxKb > maxKb) {
@@ -65,9 +81,23 @@ export async function POST(req: Request) {
       const base64 = Buffer.from(buf).toString('base64');
       const contentType = imageResp.headers.get('content-type') || 'image/png';
       const dataUrl = `data:${contentType};base64,${base64}`;
+      await consumeCredits({
+        userId: user.id,
+        credits: SEEDREAM_COST,
+        scene: 'seedream_generate',
+        description: 'Dream Maker image generation',
+        metadata: JSON.stringify({ approxKb, promptLength: prompt?.length ?? 0 }),
+      });
       return NextResponse.json({ status: 'SUCCEEDED', imageUrl: dataUrl });
     } catch (err) {
       console.error('[seedream] image fetch failed, fallback to raw url', err);
+      await consumeCredits({
+        userId: user.id,
+        credits: SEEDREAM_COST,
+        scene: 'seedream_generate',
+        description: 'Dream Maker image generation',
+        metadata: JSON.stringify({ approxKb, promptLength: prompt?.length ?? 0 }),
+      });
       return NextResponse.json({ status: 'SUCCEEDED', imageUrl: rawUrl });
     }
   } catch (e: any) {

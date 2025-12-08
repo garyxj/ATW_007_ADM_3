@@ -10,7 +10,7 @@ type Career = {
 const careers: Career[] = [
   {
     slug: 'police-officer',
-    image: '/images/careers/police.png',
+    image: '/images/careers/police.svg',
     zh: {
       title: '警察',
       summary: '维护社会治安，保护人民安全的职业。',
@@ -28,7 +28,7 @@ const careers: Career[] = [
   },
   {
     slug: 'doctor',
-    image: '/images/careers/doctor.png',
+    image: '/images/careers/doctor.svg',
     zh: {
       title: '医生',
       summary: '诊治疾病、守护生命健康的职业。',
@@ -46,7 +46,7 @@ const careers: Career[] = [
   },
   {
     slug: 'teacher',
-    image: '/images/careers/teacher.png',
+    image: '/images/careers/teacher.svg',
     zh: {
       title: '教师',
       summary: '传授知识、启发思维与塑造品格的职业。',
@@ -64,7 +64,7 @@ const careers: Career[] = [
   },
   {
     slug: 'firefighter',
-    image: '/images/careers/firefighter.png',
+    image: '/images/careers/firefighter.svg',
     zh: {
       title: '消防员',
       summary: '应对火灾与灾害救援的职业。',
@@ -82,7 +82,7 @@ const careers: Career[] = [
   },
   {
     slug: 'engineer',
-    image: '/images/careers/engineer.png',
+    image: '/images/careers/engineer.svg',
     zh: {
       title: '工程师',
       summary: '用科学与技术解决问题、创造价值的职业。',
@@ -100,7 +100,7 @@ const careers: Career[] = [
   },
   {
     slug: 'scientist',
-    image: '/images/careers/scientist.png',
+    image: '/images/careers/scientist.svg',
     zh: {
       title: '科学家',
       summary: '探索自然规律、发现新知的职业。',
@@ -118,7 +118,7 @@ const careers: Career[] = [
   },
   {
     slug: 'pilot',
-    image: '/images/careers/pilot.png',
+    image: '/images/careers/pilot.svg',
     zh: {
       title: '飞行员',
       summary: '驾驶航空器、保障航班安全的职业。',
@@ -136,7 +136,7 @@ const careers: Career[] = [
   },
   {
     slug: 'nurse',
-    image: '/images/careers/nurse.png',
+    image: '/images/careers/nurse.svg',
     zh: {
       title: '护士',
       summary: '为病患提供护理与关怀的职业。',
@@ -154,7 +154,7 @@ const careers: Career[] = [
   },
   {
     slug: 'software-engineer',
-    image: '/images/careers/software-engineer.png',
+    image: '/images/careers/software-engineer.svg',
     zh: {
       title: '软件工程师',
       summary: '用代码构建软件与数字产品的职业。',
@@ -172,7 +172,7 @@ const careers: Career[] = [
   },
   {
     slug: 'artist',
-    image: '/images/careers/artist.png',
+    image: '/images/careers/artist.svg',
     zh: {
       title: '艺术家',
       summary: '用艺术作品表达情感与审美的职业。',
@@ -190,7 +190,7 @@ const careers: Career[] = [
   },
   {
     slug: 'lawyer',
-    image: '/images/careers/lawyer.png',
+    image: '/images/careers/lawyer.svg',
     zh: {
       title: '律师',
       summary: '运用法律维护公平与正义的职业。',
@@ -208,7 +208,7 @@ const careers: Career[] = [
   },
   {
     slug: 'chef',
-    image: '/images/careers/chef.png',
+    image: '/images/careers/chef.svg',
     zh: {
       title: '厨师',
       summary: '用美食服务大众的职业。',
@@ -263,4 +263,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

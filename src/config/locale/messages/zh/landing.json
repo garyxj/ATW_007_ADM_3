@@ -2,10 +2,10 @@
   "header": {
     "id": "header",
     "brand": {
-      "title": "ShipAny Two",
+      "title": "",
       "logo": {
         "src": "/logo.png",
-        "alt": "ShipAny Two"
+        "alt": "Future Yourself"
       },
       "url": "/"
     },
@@ -57,34 +57,34 @@
   },
   "hero": {
     "id": "hero",
-    "title": "一小时快速上线你的 AI 创业项目",
-    "highlight_text": "一小时",
-    "description": "ShipAny 是用于构建 AI SaaS 创业项目的 NextJS 项目模板。<br/>集成常用功能，快速上线你的产品。",
+    "title": "与孩子一起探索职业兴趣",
+    "highlight_text": "Future Yourself",
+    "description": "以儿童职业教育为主题，结合亲子活动与职业展示，帮助孩子认识职业、形成兴趣。",
     "announcement": {
       "badge": "全新",
       "title": "🎉 ShipAny 模板二已发布",
       "url": "/pricing"
     },
-    "tip": "🎁 前 1000 名用户特价优惠",
+    "tip": "🎁 一起探索未来职业路径",
     "buttons": [
       {
-        "title": "立即开始",
+        "title": "英语职业资源",
         "icon": "Zap",
-        "url": "/pricing",
-        "target": "_self",
+        "url": "https://www.bls.gov/k12/students.htm",
+        "target": "_blank",
         "variant": "default"
       }
     ],
     "show_avatars": true,
-    "avatars_tip": "999+ 用户在使用 ShipAny 上站",
+    "avatars_tip": "家庭与孩子共同学习与探索",
     "show_award": false,
     "image": {
-      "src": "/imgs/features/admin.png",
-      "alt": "hero"
+      "src": "/logo.png",
+      "alt": "Future Yourself"
     },
     "image_invert": {
-      "src": "/imgs/features/admin-dark.png",
-      "alt": "hero"
+      "src": "/logo.png",
+      "alt": "Future Yourself"
     }
   },
   "logos": {
@@ -133,44 +133,44 @@
     "label": "产品简介",
     "description": "ShipAny 是专为 AI SaaS 创业项目打造的 NextJS 脚手架，包括丰富模板、组件及文档。",
     "image": {
-      "src": "/imgs/features/landing-page.png",
-      "alt": "introduce"
+      "src": "/logo.png",
+      "alt": "Future Yourself"
     },
     "items": [
       {
         "title": "开箱即用的模板",
         "description": "从数十款生产级 AI SaaS 模板中选择，快速开启你的项目。",
         "icon": "RiNextjsFill",
-        "image": {
-          "src": "/imgs/features/1.png",
-          "alt": "introduce"
+          "image": {
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "基础设施搭建",
         "description": "内置最佳实践，即刻拥有可扩展的基础设施。",
         "icon": "RiDatabase2Line",
-        "image": {
-          "src": "/imgs/features/2.png",
-          "alt": "introduce"
+          "image": {
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "极速部署",
         "description": "AI SaaS 产品快速上线，助力小时级交付。",
         "icon": "RiCloudyFill",
-        "image": {
-          "src": "/imgs/features/3.png",
-          "alt": "introduce"
+          "image": {
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "AI 集成",
         "description": "通过内置的 AI SDK，轻松为你的项目集成 AI 能力。",
         "icon": "RiRobot2Line",
-        "image": {
-          "src": "/imgs/features/4.png",
-          "alt": "introduce"
+          "image": {
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       }
     ]
@@ -186,8 +186,8 @@
         "description": "基于 Next.js，集成认证、支付、AI，一站式开箱即用。",
         "icon": "RiNextjsFill",
         "image": {
-          "src": "/imgs/features/user-billing.png",
-          "alt": "benefits"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
@@ -195,8 +195,8 @@
         "description": "多样的 AI SaaS 模板，点击即用，涵盖聊天、图像生成等多场景。",
         "icon": "RiClapperboardAiLine",
         "image": {
-          "src": "/imgs/features/admin-settings.png",
-          "alt": "benefits"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
@@ -204,8 +204,8 @@
         "description": "享受专属技术支持与开发者社区，为你的成功保驾护航。",
         "icon": "RiCodeFill",
         "image": {
-          "src": "/imgs/features/landing-page.png",
-          "alt": "benefits"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       }
     ]
@@ -215,8 +215,8 @@
     "title": "三步使用 ShipAny 极速上线",
     "description": "只需三步，快速开启你的 AI SaaS 创业之路：",
     "image": {
-      "src": "/imgs/features/1.png",
-      "alt": "usage"
+      "src": "/logo.png",
+      "alt": "Future Yourself"
     },
     "image_position": "left",
     "text_align": "center",
@@ -225,32 +225,32 @@
         "title": "获取 ShipAny",
         "description": "一次性购买 ShipAny，查收邮件获取代码与文档。",
         "image": {
-          "src": "/imgs/features/5.png",
-          "alt": "usage"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "启动你的项目",
         "description": "阅读说明文档，克隆 ShipAny 代码，开始开发你的 AI SaaS 项目。",
         "image": {
-          "src": "/imgs/features/6.png",
-          "alt": "usage"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "个性化定制",
         "description": "根据需求修改模板内容和数据，配置专属 AI 能力。",
         "image": {
-          "src": "/imgs/features/7.png",
-          "alt": "usage"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "部署上线",
         "description": "简单几步将你的项目推向生产环境，立刻为客户提供服务。",
         "image": {
-          "src": "/imgs/features/8.png",
-          "alt": "usage"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       }
     ]
@@ -374,9 +374,9 @@
   },
   "faq": {
     "id": "faq",
-    "title": "关于 ShipAny 的常见问题",
-    "description": "还有其他问题？欢迎加入 Discord 或发邮件联系我们。",
-    "tip": "没有找到想要的答案？请联系 <a href='https://discord.gg/HQNnrzjZQS' target='_blank' class='text-primary font-medium hover:underline'>我们的客服团队</a>",
+    "title": "关于 Future Yourself 的常见问题",
+    "description": "有关儿童职业教育的问题？欢迎联系我们，获取资源与建议。",
+    "tip": "没有找到想要的答案？请联系 <a href='https://discord.gg/hvUDCnrdrN' target='_blank' class='text-primary font-medium hover:underline'>我们的客服团队</a>",
     "items": [
       {
         "question": "ShipAny 是什么？怎么帮到我？",
@@ -406,12 +406,12 @@
   },
   "cta": {
     "id": "cta",
-    "title": "发布你的第一个 AI SaaS 项目",
-    "description": "从这里出发，用 ShipAny 极速交付。",
+    "title": "开启 Future Yourself 学习之旅",
+    "description": "从这里开始，启发与引导孩子的职业兴趣。",
     "buttons": [
       {
-        "title": "获取 ShipAny",
-        "url": "https://shipany.ai",
+        "title": "阅读英文职业博客",
+        "url": "https://www.bbc.co.uk/bitesize/careers",
         "target": "_blank",
         "icon": "Zap"
       }
@@ -434,11 +434,11 @@
   "footer": {
     "id": "footer",
     "brand": {
-      "title": "ShipAny Two",
-      "description": "ShipAny 是专为 AI SaaS 创业项目打造的 NextJS 模板。丰富模板与组件，极速交付你的产品。",
+      "title": "",
+      "description": "以儿童职业教育为主题的站点，提供亲子活动、职业展示与学习资源，启发孩子的未来道路。",
       "logo": {
         "src": "/logo.png",
-        "alt": "ShipAny Two"
+        "alt": "Future Yourself"
       },
       "url": "/"
     },
@@ -463,16 +463,15 @@
         {
           "title": "资源",
           "children": [
-            
             {
               "title": "博客",
               "url": "/blog",
               "target": "_self"
             },
             {
-              "title": "对话",
-              "url": "/chat",
-              "target": "_blank"
+              "title": "案例展示",
+              "url": "/showcases",
+              "target": "_self"
             }
           ]
         },
@@ -501,27 +500,15 @@
     "social": {
       "items": [
         {
-          "title": "X",
-          "icon": "RiTwitterXFill",
-          "url": "https://x.com/your-app-name",
-          "target": "_blank"
-        },
-        {
-          "title": "Github",
-          "icon": "Github",
-          "url": "https://github.com/your-app-name",
-          "target": "_blank"
-        },
-        {
           "title": "Discord",
           "icon": "RiDiscordFill",
-          "url": "https://discord.gg/your-app-name",
+          "url": "https://discord.gg/hvUDCnrdrN",
           "target": "_blank"
         },
         {
           "title": "邮箱",
           "icon": "Mail",
-          "url": "mailto:gary.xj@foxmail.com",
+          "url": "mailto:info@futureselfgenerator.com",
           "target": "_self"
         }
       ]

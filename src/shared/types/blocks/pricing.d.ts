@@ -52,6 +52,7 @@ export interface Pricing {
   name?: string;
   title?: string;
   description?: string;
+  tech_note?: string;
   items?: PricingItem[];
   groups?: PricingGroup[];
   className?: string;

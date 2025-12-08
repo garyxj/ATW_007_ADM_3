@@ -335,9 +335,14 @@ export function Pricing({
         <h2 className="mb-6 text-3xl font-bold text-pretty lg:text-4xl">
           {pricing.title}
         </h2>
-        <p className="text-muted-foreground mx-auto mb-4 max-w-xl lg:max-w-none lg:text-lg">
+        <p className="text-muted-foreground mx-auto mb-1 max-w-xl lg:max-w-none lg:text-lg">
           {pricing.description}
         </p>
+        {pricing.tech_note && (
+          <p className="text-muted-foreground mx-auto mb-4 max-w-xl lg:max-w-none lg:text-lg text-center">
+            {pricing.tech_note}
+          </p>
+        )}
       </div>
 
       <div className="container">

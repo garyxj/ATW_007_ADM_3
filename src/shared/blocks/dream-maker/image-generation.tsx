@@ -6,29 +6,30 @@ import { Loader2, Sparkles, ArrowLeft, RefreshCw, AlertCircle } from "lucide-rea
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import type { DreamData } from "@/app/[locale]/(landing)/dream-maker/page";
+import { buildCareerHeadshotPrompt } from "@/shared/prompt/builder";
 
 function useGenSteps(t: (k: string) => string) {
   return [t("gen_step_1"), t("gen_step_2"), t("gen_step_3"), t("gen_step_4"), t("gen_step_5")];
 }
 
 function generateEnhancedPrompt(career: string, customDream: string): string {
-  const careerDesc = career ? `Professional adult ${career} image` : "Professional adult portrait";
-  const basePrompt = `Transform the child in the photo into an adult professional image.
+  const legacy = typeof process !== "undefined" && (process.env?.NEXT_PUBLIC_USE_LEGACY_PROMPT === "1" || process.env?.NEXT_PUBLIC_USE_LEGACY_PROMPT === "true");
+  if (legacy) {
+    const careerDesc = career ? `Professional adult ${career} image` : "Professional adult portrait";
+    const basePrompt = `Transform the child in the photo into an adult professional image.
 
-【MOST IMPORTANT】Strictly maintain the facial features from the original photo:
-- Keep the same eye shape, size and spacing
-- Keep the same nose shape and contour
-- Keep the same lip shape
-- Keep the same face shape
-- Keep the same skin tone
-- This must look like the same person grown up
+Keep identical facial features from the original photo; same identity; same face shape and proportions; same skin tone; same eyes, nose and lips.
 
-【Age Transformation】Naturally mature the child's face to a 25-30 year old adult, with more mature facial proportions but identical facial features.
+Target age: 26 years old adult.
 
-【Career Image】${careerDesc}. ${customDream ? `User's vision: ${customDream}` : ""}
+Career image: ${careerDesc}. ${customDream ? `Additional details: ${customDream}` : ""}
 
-【Image Quality】High-definition professional portrait photography, 4K quality, soft natural studio lighting, blurred background, sharp and clear face.`;
-  return basePrompt;
+Image quality: professional headshot, upper body, centered composition, neutral gray background, 85mm lens, f/2.8, soft studio lighting, crisp focus, minimal shadows.
+
+Negative: no text overlay, no watermark, no cartoon, no distortion, no double exposure, no multiple faces, no extreme makeup.`;
+    return basePrompt;
+  }
+  return buildCareerHeadshotPrompt({ careerId: career, customText: customDream, locale: "mix", qualityPreset: "studio", safetyLevel: "strict", useChineseAppend: true });
 }
 
 async function compressImage(base64Data: string, maxWidth = 1024, quality = 0.85): Promise<string> {

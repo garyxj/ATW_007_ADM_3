@@ -13,6 +13,10 @@ export const generateMetadata = getMetadata({
   canonicalUrl: '/showcases',
 });
 
+/**
+ * Showcases 页面
+ * 从数据库加载职业展示；无图时使用通用占位图
+ */
 export default async function ShowcasesPage({
   params,
 }: {
@@ -35,10 +39,11 @@ export default async function ShowcasesPage({
   let showcases: ShowcasesType = showcasesI18n;
   try {
     const rows = await getShowcases({ locale, status: 'active', page: 1, limit: 100 });
+    const filtered = rows.filter((r) => r.slug?.endsWith('-kids-chibi'));
     showcases = {
       ...showcasesI18n,
-      items: rows.map((r) => ({
-        image: { src: r.imageUrl || '/images/placeholder.png', alt: r.title },
+      items: filtered.map((r) => ({
+        image: { src: r.imageUrl || '/placeholder.svg', alt: r.title },
         title: r.title,
         description: r.summary || '',
         url: `/showcases/${r.slug}`,
@@ -49,5 +54,5 @@ export default async function ShowcasesPage({
   }
   const cta: CTAType = tl.raw('cta');
 
-  return <Page locale={locale} showcases={showcases} cta={cta} />;
+  return <div className="mt-8 md:mt-12"><Page locale={locale} showcases={showcases} cta={cta} /></div>;
 }

@@ -130,28 +130,16 @@
           "target": "_blank"
         },
         {
-          "title": "GitHub",
-          "url": "https://github.com/your-app-name",
-          "icon": "Github",
-          "target": "_blank"
-        },
-        {
-          "title": "推特",
-          "url": "https://twitter.com/your-app-name",
-          "icon": "RiTwitterXFill",
-          "target": "_blank"
-        },
-        {
           "title": "Discord",
-          "url": "https://discord.gg/your-app-name",
+          "url": "https://discord.gg/hvUDCnrdrN",
           "icon": "RiDiscordFill",
           "target": "_blank"
         },
         {
-          "title": "邮箱",
-          "url": "mailto:gary.xj@foxmail.com",
-          "icon": "Mail",
-          "target": "_blank"
+      "title": "邮箱",
+      "url": "mailto:info@futureselfgenerator.com",
+      "icon": "Mail",
+      "target": "_blank"
         }
       ]
     },

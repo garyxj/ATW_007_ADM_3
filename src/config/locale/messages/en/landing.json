@@ -2,10 +2,10 @@
   "header": {
     "id": "header",
     "brand": {
-      "title": "ShipAny Two",
+      "title": "",
       "logo": {
         "src": "/logo.png",
-        "alt": "ShipAny Two"
+        "alt": "Future Yourself"
       },
       "url": "/"
     },
@@ -57,34 +57,34 @@
   },
   "hero": {
     "id": "hero",
-    "title": "Ship AI Startups in hours, not days",
-    "highlight_text": "in hours",
-    "description": "ShipAny is a NextJS boilerplate for building AI SaaS startups.<br/>Ship Fast with a variety of templates and components.",
+    "title": "Inspire Kids' Future Careers",
+    "highlight_text": "Future Yourself",
+    "description": "A children career education theme. Help kids explore interests with activities and showcases.",
     "announcement": {
       "badge": "New",
       "title": "🎉 ShipAny Template Two",
       "url": "/pricing"
     },
-    "tip": "🎁 Special offer for the first 1000 users",
+    "tip": "🎁 Explore career paths together",
     "buttons": [
       {
-        "title": "Get Started",
+        "title": "Kids Career Resources",
         "icon": "Zap",
-        "url": "/pricing",
-        "target": "_self",
+        "url": "https://www.bls.gov/k12/students.htm",
+        "target": "_blank",
         "variant": "default"
       }
     ],
     "show_avatars": true,
-    "avatars_tip": "999+ users are using ShipAny",
+    "avatars_tip": "Families learning and exploring together",
     "show_award": false,
     "image": {
-      "src": "/imgs/features/admin.png",
-      "alt": "hero"
+      "src": "/logo.png",
+      "alt": "Future Yourself"
     },
     "image_invert": {
-      "src": "/imgs/features/admin-dark.png",
-      "alt": "hero"
+      "src": "/logo.png",
+      "alt": "Future Yourself"
     }
   },
   "logos": {
@@ -133,44 +133,44 @@
     "label": "Introduce",
     "description": "ShipAny is a NextJS boilerplate for building AI SaaS startups, including templates, components, and documentation.",
     "image": {
-      "src": "/imgs/features/landing-page.png",
-      "alt": "introduce"
+      "src": "/logo.png",
+      "alt": "Future Yourself"
     },
     "items": [
       {
         "title": "Ready-to-use Templates",
         "description": "Choose from dozens of production-ready AI SaaS templates to quickly start your project.",
         "icon": "RiNextjsFill",
-        "image": {
-          "src": "/imgs/features/1.png",
-          "alt": "introduce"
+          "image": {
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "Infrastructure Setup",
         "description": "Get instant access to scalable infrastructure with best practices built-in.",
         "icon": "RiDatabase2Line",
-        "image": {
-          "src": "/imgs/features/2.png",
-          "alt": "introduce"
+          "image": {
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "Quick Deployment",
         "description": "Deploy your AI SaaS application to production in hours, not days.",
         "icon": "RiCloudyFill",
-        "image": {
-          "src": "/imgs/features/3.png",
-          "alt": "introduce"
+          "image": {
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "AI Integration",
         "description": "Integrate AI into your project with ease using our built-in AI SDK.",
         "icon": "RiRobot2Line",
-        "image": {
-          "src": "/imgs/features/4.png",
-          "alt": "introduce"
+          "image": {
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       }
     ]
@@ -186,8 +186,8 @@
         "description": "Built on Next.js with authentication, payments, and AI integration - everything works out of the box.",
         "icon": "RiNextjsFill",
         "image": {
-          "src": "/imgs/features/user-billing.png",
-          "alt": "benefits"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
@@ -195,8 +195,8 @@
         "description": "Choose from various AI SaaS templates to kickstart your project - chatbots, image generation, and more.",
         "icon": "RiClapperboardAiLine",
         "image": {
-          "src": "/imgs/features/admin-settings.png",
-          "alt": "benefits"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
@@ -204,8 +204,8 @@
         "description": "Get dedicated support and join our developer community to ensure your successful launch.",
         "icon": "RiCodeFill",
         "image": {
-          "src": "/imgs/features/landing-page.png",
-          "alt": "benefits"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       }
     ]
@@ -215,8 +215,8 @@
     "title": "How to Launch with ShipAny",
     "description": "Get your AI SaaS startup running in three simple steps:",
     "image": {
-      "src": "/imgs/features/1.png",
-      "alt": "usage"
+      "src": "/logo.png",
+      "alt": "Future Yourself"
     },
     "image_position": "left",
     "text_align": "center",
@@ -225,32 +225,32 @@
         "title": "Get ShipAny",
         "description": "Buy ShipAny with a one-time payment. Check your email for the code and documentation.",
         "image": {
-          "src": "/imgs/features/5.png",
-          "alt": "usage"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "Start Your Project",
         "description": "Read the documentation and clone the code of ShipAny. Start building your AI SaaS startup.",
         "image": {
-          "src": "/imgs/features/6.png",
-          "alt": "usage"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "Customize Your Project",
         "description": "Modify the template with your data and contents. Specific AI functionality needs.",
         "image": {
-          "src": "/imgs/features/7.png",
-          "alt": "usage"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       },
       {
         "title": "Deploy to Production",
         "description": "Deploy your project to production with a few steps and start serving customers immediately.",
         "image": {
-          "src": "/imgs/features/8.png",
-          "alt": "usage"
+          "src": "/logo.png",
+          "alt": "Future Yourself"
         }
       }
     ]
@@ -374,9 +374,9 @@
   },
   "faq": {
     "id": "faq",
-    "title": "Frequently Asked Questions About ShipAny",
-    "description": "Have another question? Contact us on Discord or by email.",
-    "tip": "Can't find what you're looking for? Contact our <a href='https://discord.gg/HQNnrzjZQS' target='_blank' class='text-primary font-medium hover:underline'>customer support team</a>",
+    "title": "Frequently Asked Questions About Future Yourself",
+    "description": "Questions about children's career education? Contact us for resources.",
+    "tip": "Can't find what you're looking for? Contact our <a href='https://discord.gg/hvUDCnrdrN' target='_blank' class='text-primary font-medium hover:underline'>customer support team</a>",
     "items": [
       {
         "question": "What exactly is ShipAny and how does it work?",
@@ -406,12 +406,12 @@
   },
   "cta": {
     "id": "cta",
-    "title": "Ship your first AI SaaS Startup",
-    "description": "Start from here, ship with ShipAny.",
+    "title": "Start Your Future Yourself Journey",
+    "description": "Begin here. Inspire and guide kids' career interests.",
     "buttons": [
       {
-        "title": "Get ShipAny",
-        "url": "https://shipany.ai",
+        "title": "Explore English Career Blog",
+        "url": "https://www.bbc.co.uk/bitesize/careers",
         "target": "_blank",
         "icon": "Zap"
       }
@@ -434,11 +434,11 @@
   "footer": {
     "id": "footer",
     "brand": {
-      "title": "ShipAny Two",
-      "description": "ShipAny is a NextJS boilerplate for building AI SaaS startups. Ship Fast with a variety of templates and components.",
+      "title": "",
+      "description": "A theme for children's career education. Activities, showcases and resources to inspire future paths.",
       "logo": {
         "src": "/logo.png",
-        "alt": "ShipAny Two"
+        "alt": "Future Yourself"
       },
       "url": "/"
     },
@@ -463,15 +463,14 @@
         {
           "title": "Resources",
           "children": [
-            
             {
               "title": "Blog",
               "url": "/blog",
               "target": "_self"
             },
             {
-              "title": "Chat",
-              "url": "/chat",
+              "title": "Showcases",
+              "url": "/showcases",
               "target": "_self"
             }
           ]
@@ -501,27 +500,15 @@
     "social": {
       "items": [
         {
-          "title": "X",
-          "icon": "RiTwitterXFill",
-          "url": "https://x.com/your-app-name",
-          "target": "_blank"
-        },
-        {
-          "title": "Github",
-          "icon": "Github",
-          "url": "https://github.com/your-app-name",
-          "target": "_blank"
-        },
-        {
           "title": "Discord",
           "icon": "RiDiscordFill",
-          "url": "https://discord.gg/your-app-name",
+          "url": "https://discord.gg/hvUDCnrdrN",
           "target": "_blank"
         },
         {
           "title": "Email",
           "icon": "Mail",
-          "url": "mailto:gary.xj@foxmail.com",
+          "url": "mailto:info@futureselfgenerator.com",
           "target": "_self"
         }
       ]

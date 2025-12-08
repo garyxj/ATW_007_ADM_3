@@ -8,6 +8,7 @@
     "sr_only_title": "Pricing Table",
     "title": "Pricing",
     "description": "Pay-per-credit AI image generation to create dream career portraits for kids.",
+    "tech_note": "Powered by Seedream 4.5 and Nano Banana Pro LLMs",
     "groups": [
       {
         "name": "one-time",

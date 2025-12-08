@@ -33,9 +33,9 @@ export function Footer({ footer }: { footer: FooterType }) {
           <div className="col-span-3 grid min-w-0 gap-6 sm:grid-cols-3">
             {footer.nav?.items.map((item, idx) => (
               <div key={idx} className="min-w-0 space-y-4 text-sm break-words">
-                <span className="block font-medium break-words">
+                <p className="block font-medium break-words">
                   {item.title}
-                </span>
+                </p>
 
                 <div className="flex min-w-0 flex-wrap gap-4 sm:flex-col">
                   {item.children?.map((subItem, iidx) => (
@@ -45,7 +45,7 @@ export function Footer({ footer }: { footer: FooterType }) {
                       target={subItem.target || ''}
                       className="text-muted-foreground hover:text-primary block break-words duration-150"
                     >
-                      <span className="break-words">{subItem.title || ''}</span>
+                      {subItem.title || ''}
                     </Link>
                   ))}
                 </div>

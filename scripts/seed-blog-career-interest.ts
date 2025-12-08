@@ -38,9 +38,9 @@ const seeds: BlogSeed[] = [
  * 将专题文章写入现有 post 表（type=blog，status=active）
  */
 async function main() {
-  const [author] = await db().select({ id: user.id }).from(user).where(eq(user.email, 'gary.xj@foxmail.com'));
+  const [author] = await db().select({ id: user.id }).from(user).where(eq(user.email, 'info@futureselfgenerator.com'));
   if (!author?.id) {
-    throw new Error('Author user not found: please ensure gary.xj@foxmail.com exists');
+    throw new Error('Author user not found: please ensure info@futureselfgenerator.com exists');
   }
 
   for (const s of seeds) {

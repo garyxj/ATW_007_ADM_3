@@ -7,6 +7,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { cn } from "@/shared/lib/utils";
+import { CAREER_PRESETS } from "@/shared/prompt/career-presets";
 
 export default function DreamInput({ photo, onSubmit, onBack }: { photo: string | null; onSubmit: (dream: string, career: string) => void; onBack: () => void; }) {
   const t = useTranslations("dreammaker");
@@ -47,23 +48,10 @@ export default function DreamInput({ photo, onSubmit, onBack }: { photo: string 
   }
 
   function handleSubmit() {
-    const CAREER_OPTIONS = [
-      { id: "astronaut", label: "Astronaut", prompt: "Wearing spacesuit, standing in space station" },
-      { id: "doctor", label: "Doctor", prompt: "Wearing white coat with stethoscope" },
-      { id: "scientist", label: "Scientist", prompt: "In laboratory, wearing lab coat" },
-      { id: "pilot", label: "Pilot", prompt: "Wearing pilot uniform, in cockpit" },
-      { id: "chef", label: "Chef", prompt: "Wearing chef uniform, in professional kitchen" },
-      { id: "artist", label: "Artist", prompt: "Holding paintbrush, in art studio" },
-      { id: "athlete", label: "Athlete", prompt: "Wearing sports gear, on sports field" },
-      { id: "musician", label: "Musician", prompt: "Playing instrument, on concert stage" },
-      { id: "teacher", label: "Teacher", prompt: "Teaching in bright classroom" },
-      { id: "firefighter", label: "Firefighter", prompt: "Wearing firefighter suit, heroic image" },
-      { id: "police", label: "Police", prompt: "Wearing police uniform, dignified" },
-      { id: "programmer", label: "Programmer", prompt: "Coding in tech company office" },
-    ];
-    const career = CAREER_OPTIONS.find((c) => c.id === selectedCareer);
-    const dreamText = customDream || career?.prompt || "";
-    const careerLabel = career?.label || "Custom Career";
+    const presets = CAREER_PRESETS;
+    const selected = selectedCareer ? presets[selectedCareer] : undefined;
+    const dreamText = customDream || selected?.shortZh || "";
+    const careerLabel = selected?.nameEn || "Custom Career";
     if (dreamText) onSubmit(dreamText, careerLabel);
   }
 
@@ -97,20 +85,7 @@ export default function DreamInput({ photo, onSubmit, onBack }: { photo: string 
             <div className="mb-6 sm:mb-8">
               <p className="text-xs sm:text-sm font-medium text-foreground mb-3 sm:mb-4">{t("popular_careers")}</p>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
-                {[
-                  { id: "astronaut", label: "Astronaut", icon: "🚀" },
-                  { id: "doctor", label: "Doctor", icon: "👨‍⚕️" },
-                  { id: "scientist", label: "Scientist", icon: "🔬" },
-                  { id: "pilot", label: "Pilot", icon: "✈️" },
-                  { id: "chef", label: "Chef", icon: "👨‍🍳" },
-                  { id: "artist", label: "Artist", icon: "🎨" },
-                  { id: "athlete", label: "Athlete", icon: "⚽" },
-                  { id: "musician", label: "Musician", icon: "🎵" },
-                  { id: "teacher", label: "Teacher", icon: "📚" },
-                  { id: "firefighter", label: "Firefighter", icon: "🚒" },
-                  { id: "police", label: "Police", icon: "👮" },
-                  { id: "programmer", label: "Programmer", icon: "💻" },
-                ].map((career) => (
+                {Object.values(CAREER_PRESETS).map((career) => (
                   <button
                     key={career.id}
                     onClick={() => {
@@ -119,8 +94,8 @@ export default function DreamInput({ photo, onSubmit, onBack }: { photo: string 
                     }}
                     className={cn("flex flex-col items-center gap-1.5 sm:gap-2 p-2.5 sm:p-4 rounded-xl border-2 transition-all duration-300", selectedCareer === career.id ? "border-primary bg-primary/10 scale-105" : "border-border hover:border-primary/50 hover:bg-secondary")}
                   >
-                    <span className="text-xl sm:text-2xl">{career.icon}</span>
-                    <span className="text-[10px] sm:text-xs font-medium text-foreground">{career.label}</span>
+                    <span className="text-xl sm:text-2xl">🎯</span>
+                    <span className="text-[10px] sm:text-xs font-medium text-foreground">{career.nameEn}</span>
                   </button>
                 ))}
               </div>

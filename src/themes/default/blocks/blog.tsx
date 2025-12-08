@@ -58,7 +58,7 @@ export function Blog({
 
         {blog.posts && blog.posts.length > 0 ? (
           <div className="flex w-full flex-wrap items-start">
-            {blog.posts?.map((item, idx) => (
+            {(blog.posts || []).map((item, idx) => (
               <Link
                 key={idx}
                 href={item.url || ''}

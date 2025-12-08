@@ -18,9 +18,9 @@ function generateEnhancedPrompt(career: string, customDream: string): string {
     const careerDesc = career ? `Professional adult ${career} image` : "Professional adult portrait";
     const basePrompt = `Transform the child in the photo into an adult professional image.
 
-Keep identical facial features from the original photo; same identity; same face shape and proportions; same skin tone; same eyes, nose and lips.
+Keep identical facial features from the original photo; same identity; same face shape and proportions; same skin tone; same eyes, nose and lips; adult bone structure and mature facial features.
 
-Target age: 26 years old adult.
+Target age: 30-year-old adult (approximately late 20s to early 30s).
 
 Career image: ${careerDesc}. ${customDream ? `Additional details: ${customDream}` : ""}
 

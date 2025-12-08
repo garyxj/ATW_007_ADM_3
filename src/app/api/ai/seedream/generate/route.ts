@@ -2,17 +2,33 @@ import { NextResponse } from 'next/server';
 import { ArkProvider } from '@/extensions/ai/ark';
 import { AIMediaType } from '@/extensions/ai';
 
+// Ensure serverless runtime (not edge) and allow longer execution window on platforms like Vercel
+export const runtime = 'nodejs';
+export const maxDuration = 60;
+
 export async function POST(req: Request) {
   try {
     const { imageBase64, prompt } = await req.json();
 
+    const approxKb = imageBase64 ? Math.round((imageBase64.length * 3) / 4 / 1024) : 0;
+    const maxKb = Number(process.env.ARK_MAX_IMAGE_KB || 6000);
+
     console.log('[seedream] incoming request', {
       promptLength: prompt?.length ?? 0,
       imageSize: imageBase64 ? imageBase64.length : 0,
+      approxKb,
+      maxKb,
     });
 
     if (!imageBase64 || !prompt) {
       return NextResponse.json({ error: 'Missing required fields: imageBase64 and prompt' }, { status: 400 });
+    }
+
+    if (approxKb > maxKb) {
+      return NextResponse.json(
+        { error: `Image too large (~${approxKb}KB). Please upload a smaller image.` },
+        { status: 400 }
+      );
     }
 
     const apiKey = process.env.ARK_API_KEY;
@@ -30,7 +46,9 @@ export async function POST(req: Request) {
     }).catch((err) => {
       console.error('[seedream] provider.generate error', err);
       const msg = err?.message || 'Server error';
-      throw new Error(msg);
+      const forward: any = new Error(msg);
+      if (err?.status) forward.status = err.status;
+      throw forward;
     });
 
     const rawUrl = result.taskInfo?.images?.[0]?.imageUrl;
@@ -55,6 +73,13 @@ export async function POST(req: Request) {
   } catch (e: any) {
     console.error('[seedream] route error', e);
     const msg = e?.message || 'Server error';
-    return NextResponse.json({ error: msg }, { status: 500 });
+    const status =
+      e?.status ||
+      (msg?.toLowerCase?.().includes('timeout') || msg?.toLowerCase?.().includes('abort')
+        ? 504
+        : msg?.toLowerCase?.().includes('invalid api key')
+          ? 401
+          : 500);
+    return NextResponse.json({ error: msg }, { status });
   }
 }

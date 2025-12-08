@@ -14,11 +14,17 @@ export class ArkProvider implements AIProvider {
   }
 
   async generate({ params }: { params: AIGenerateParams }): Promise<AITaskResult> {
+    const buildError = (message: string, status?: number) => {
+      const err: any = new Error(message);
+      if (status) err.status = status;
+      return err;
+    };
+
     if (params.mediaType !== AIMediaType.IMAGE) {
       throw new Error(`mediaType not supported: ${params.mediaType}`);
     }
-    // lower the minimum pixel area to reduce payload size and speed up upstream processing
-    const minPixels = 1048576; // ~1024x1024
+    // Ark requires at least 3686400 pixels (~1920x1920)
+    const minPixels = 3686400;
     const parse = (s: string) => {
       const m = s.match(/^(\d+)x(\d+)$/);
       if (!m) return undefined;
@@ -36,8 +42,8 @@ export class ArkProvider implements AIProvider {
       const scale = Math.sqrt(minPixels / area);
       return format(p.w * scale, p.h * scale);
     };
-    // default smaller size to further reduce payload/latency; env can override
-    const requestedSize = params.options?.size || process.env.ARK_IMAGE_SIZE || '1536x1536';
+    // default to Ark minimum; env can override
+    const requestedSize = params.options?.size || process.env.ARK_IMAGE_SIZE || '1920x1920';
     const defaultSize = normalize(requestedSize);
     const timeoutMs = Number(process.env.ARK_REQUEST_TIMEOUT_MS || 40000);
 
@@ -73,7 +79,10 @@ export class ArkProvider implements AIProvider {
       } catch (err: any) {
         clearTimeout(timer);
         if (err?.name === 'AbortError') {
-          throw new Error(`Ark request aborted (timeout ${timeoutMs}ms). 考虑减小图片尺寸或提升 ARK_REQUEST_TIMEOUT_MS。`);
+          throw buildError(
+            `Ark request aborted (timeout ${timeoutMs}ms). 考虑减小图片尺寸或提升 ARK_REQUEST_TIMEOUT_MS。`,
+            504
+          );
         }
         throw err;
       }
@@ -83,20 +92,23 @@ export class ArkProvider implements AIProvider {
     let text = first.text;
     if (!first.resp.ok) {
       const status = first.resp.status;
-      // fallback to a still-reasonable size, smaller than default to avoid repeated timeouts
-      const fallbackSize = normalize('1280x1280');
+      // fallback to a compliant size slightly above minimum
+      const fallbackSize = normalize('2048x2048');
       if (status >= 500 || status === 504) {
         const second = await call(fallbackSize);
         text = second.text;
         if (!second.resp.ok) {
           let err: any;
           try { err = JSON.parse(text); } catch { err = { message: text }; }
-          throw new Error(err?.message || err?.error?.message || `Failed: ${second.resp.status}`);
+          throw buildError(
+            err?.message || err?.error?.message || `Failed: ${second.resp.status}`,
+            second.resp.status
+          );
         }
       } else {
         let err: any;
         try { err = JSON.parse(text); } catch { err = { message: text }; }
-        throw new Error(err?.message || err?.error?.message || `Failed: ${status}`);
+        throw buildError(err?.message || err?.error?.message || `Failed: ${status}`, status);
       }
     }
 

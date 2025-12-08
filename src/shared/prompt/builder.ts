@@ -60,9 +60,9 @@ export function buildCareerHeadshotPrompt(options: HeadshotOptions): string {
   const zhAppend = o.useChineseAppend && o.locale !== "en" && extra ? `附加说明：${extra}` : "";
   const enAppend = extra ? `Additional details: ${extra}` : "";
   const lines = [
-    "Transform the child in the photo into an adult professional image.",
-    "Keep identical facial features from the original photo; same identity; same face shape and proportions; same skin tone; same eyes, nose and lips.",
-    "Target age: 26 years old adult.",
+    "Transform the child in the photo into an adult professional image around 30 years old.",
+    "Keep identical facial features from the original photo; same identity; same face shape and proportions; same skin tone; same eyes, nose and lips; adult bone structure and mature facial features.",
+    "Target age: 30-year-old adult (approximately late 20s to early 30s).",
     `Career image: ${detail}.`,
     enAppend,
     `Image quality: ${quality}.`,

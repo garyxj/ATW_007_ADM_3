@@ -33,6 +33,7 @@ export default function PhotoUpload({ onPhotoUpload }: { onPhotoUpload: (photo: 
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [videoKey, setVideoKey] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -123,14 +124,49 @@ export default function PhotoUpload({ onPhotoUpload }: { onPhotoUpload: (photo: 
   async function startCamera() {
     setCameraError(null);
     setIsDragging(false);
+    setPreview(null);
+    setIsValid(false);
+    stopCamera();
+    setVideoKey((k) => k + 1);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+      } catch {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      }
       streamRef.current = stream;
-      setIsCameraOpen(true);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        await videoRef.current.play().catch(() => {});
+        videoRef.current.muted = true;
+        videoRef.current.playsInline = true;
+        videoRef.current.load();
+        const video = videoRef.current;
+        const playVideo = async () => {
+          try {
+            await video.play();
+          } catch (playErr: any) {
+            setCameraError(playErr?.message || textCameraError);
+          }
+        };
+        if (video.readyState >= 2) {
+          await playVideo();
+        } else {
+          video.onloadedmetadata = async () => {
+            await playVideo();
+          };
+          video.oncanplay = async () => {
+            await playVideo();
+          };
+        }
+        // fallback: if after delay still无尺寸则提示
+        setTimeout(() => {
+          if (!video.videoWidth || !video.videoHeight) {
+            setCameraError(textCameraError);
+          }
+        }, 1500);
       }
+      setIsCameraOpen(true);
     } catch (err: any) {
       setCameraError(err?.message || textCameraError);
       setIsCameraOpen(false);
@@ -140,6 +176,9 @@ export default function PhotoUpload({ onPhotoUpload }: { onPhotoUpload: (photo: 
   function stopCamera() {
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
     setIsCameraOpen(false);
   }
 
@@ -175,83 +214,24 @@ export default function PhotoUpload({ onPhotoUpload }: { onPhotoUpload: (photo: 
   }
 
   return (
-    <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className={`text-center mb-8 sm:mb-12 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+    <section className="pt-20 sm:pt-24 pb-14 sm:pb-20 px-4 sm:px-6 lg:px-10">
+      <div className="max-w-4xl mx-auto">
+        <div className={`text-center mb-10 sm:mb-12 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground text-xs sm:text-sm font-medium mb-3 sm:mb-4">
             <Camera className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             {t("step_one")}
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">{t("upload_title")}</h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto">{t("upload_tip")}</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 leading-tight">{t("upload_title")}</h2>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">{t("upload_tip")}</p>
         </div>
 
-        <Card className={cn("relative overflow-hidden transition-all duration-500", mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8", isDragging && "ring-2 ring-primary ring-offset-2", preview ? "p-4 sm:p-6" : "p-5 sm:p-8")}>
-          <div className="grid gap-6 lg:gap-8 lg:grid-cols-3 items-start">
-            <div className="space-y-4 lg:space-y-5">
-              <div className={cn("flex flex-col gap-3 p-4 rounded-2xl border border-dashed transition-all duration-300", isCameraOpen ? "border-primary bg-primary/5" : "border-border hover:border-primary/50 hover:bg-secondary/40")}>
-                <div className="flex items-center gap-3">
-                  <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300", isCameraOpen ? "bg-primary text-primary-foreground scale-105" : "bg-secondary text-secondary-foreground")}>
-                    <Camera className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{t("drag_click")}</p>
-                    <p className="text-xs text-muted-foreground">{textCameraHint}</p>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <Button size="sm" className="flex-1 rounded-full" onClick={startCamera} disabled={isCameraOpen && !cameraError}>
-                    {isCameraOpen ? (isZh ? "已开启" : "Camera On") : (isZh ? "开启摄像头" : "Start Camera")}
-                  </Button>
-                  <Button size="sm" variant="outline" className="rounded-full gap-2" onClick={stopCamera} disabled={!isCameraOpen}>
-                    <VideoOff className="w-4 h-4" />
-                    {textClose}
-                  </Button>
-                </div>
-              </div>
-
-              <div
-                onDrop={handleDrop}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                className={cn("flex flex-col gap-2 p-4 rounded-2xl border border-dashed transition-all duration-300 cursor-pointer", isDragging ? "border-primary bg-primary/5" : "border-border hover:border-primary/50 hover:bg-secondary/40")}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  fileInputRef.current?.click();
-                }}
-              >
-                <div className="flex items-center gap-2 text-sm text-foreground">
-                  <Upload className="w-4 h-4" />
-                  <span>{textUploadHint}</span>
-                </div>
-                <p className="text-xs text-muted-foreground">{t("supports_formats")}</p>
-                <Button variant="outline" size="sm" className="w-max rounded-full px-4 gap-2" onClick={handleUseUploadClick}>
-                  <ImagePlus className="w-4 h-4" />
-                  {textChooseFile}
-                </Button>
-                <input ref={fileInputRef} type="file" accept="image/jpeg,image/jpg,image/png" onChange={handleFileSelect} className="hidden" />
-              </div>
-
-              {cameraError && (
-                <div className="flex items-center gap-2 text-destructive text-xs sm:text-sm p-3 bg-destructive/10 rounded-lg">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                  {cameraError}
-                </div>
-              )}
-
-              {error && (
-                <div className="flex items-center gap-2 text-destructive text-xs sm:text-sm p-3 bg-destructive/10 rounded-lg">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                  {error}
-                </div>
-              )}
-            </div>
-
-            <div className="lg:col-span-2">
-              <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border border-border bg-secondary flex items-center justify-center">
+        <Card className={cn("relative overflow-hidden transition-all duration-500 bg-card/70 backdrop-blur-sm", mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4", isDragging && "ring-2 ring-primary ring-offset-2", preview || isCameraOpen ? "p-4 sm:p-6 lg:p-8" : "p-6 sm:p-8")}>
+          {preview || isCameraOpen ? (
+            <div className="space-y-4">
+              <div className="relative rounded-2xl overflow-hidden border border-border bg-secondary/60 flex items-center justify-center max-h-[80vh] min-h-[320px] sm:min-h-[380px]">
                 {preview ? (
                   <>
-                    <img src={preview || "/placeholder.svg"} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={preview || "/placeholder.svg"} alt="Preview" className="w-full h-full object-contain bg-black/40" />
                     {isValidating && (
                       <div className="absolute inset-0 bg-foreground/50 flex items-center justify-center">
                         <div className="text-center text-card">
@@ -270,9 +250,28 @@ export default function PhotoUpload({ onPhotoUpload }: { onPhotoUpload: (photo: 
                       <X className="w-4 h-4" />
                     </button>
                   </>
-                ) : isCameraOpen ? (
+                ) : (
                   <>
-                    <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover" />
+                    <video
+                      key={videoKey}
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      onCanPlay={(e) => {
+                        const v = e.currentTarget;
+                        if (v.paused) v.play().catch(() => {});
+                      }}
+                      className="w-full h-full object-contain bg-black/40"
+                    />
+                    {!cameraError && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-background/80 backdrop-blur text-sm text-foreground">
+                          <Camera className="w-4 h-4" />
+                          {isZh ? "正在开启摄像头..." : "Opening camera..."}
+                        </div>
+                      </div>
+                    )}
                     <div className="absolute inset-x-4 bottom-4 flex gap-2">
                       <Button onClick={handleCapture} className="flex-1 rounded-full gap-2" disabled={isCapturing}>
                         {isCapturing ? t("gen_processing") : textCaptureUse}
@@ -283,39 +282,39 @@ export default function PhotoUpload({ onPhotoUpload }: { onPhotoUpload: (photo: 
                       </Button>
                     </div>
                   </>
-                ) : (
-                  <div className="text-center space-y-2 px-4">
-                    <Camera className="w-10 h-10 text-muted-foreground mx-auto" />
-                    <p className="text-sm sm:text-base text-muted-foreground">{textPlaceholder}</p>
-                  </div>
                 )}
               </div>
-
               {isValid && (
-                <div className="flex justify-center mt-4">
+                <div className="flex justify-center">
                   <Button onClick={handleConfirm} className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                     {isZh ? "确认并继续" : "Confirm & Continue"}
                   </Button>
                 </div>
               )}
             </div>
-          </div>
-        </Card>
-        <div className={`mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 transition-all duration-700 delay-200 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          {[
-            { icon: "👤", title: isZh ? "正面朝向" : "Front Facing", desc: isZh ? "避免遮挡面部" : "No face obstructions" },
-            { icon: "💡", title: isZh ? "光线均匀" : "Even Lighting", desc: isZh ? "避免过曝或过暗" : "Avoid over/underexposure" },
-            { icon: "🎯", title: isZh ? "居中构图" : "Centered", desc: isZh ? "让面部保持中心" : "Face in the center" },
-          ].map((tip, index) => (
-            <div key={index} className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-secondary/50 border border-border">
-              <span className="text-xl sm:text-2xl">{tip.icon}</span>
-              <div>
-                <p className="text-xs sm:text-sm font-medium text-foreground">{tip.title}</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">{tip.desc}</p>
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 py-8 sm:py-10">
+              <div className="flex items-center justify-center gap-3 sm:gap-4">
+                <Button size="lg" className="rounded-full px-6 sm:px-8 gap-2" onClick={startCamera}>
+                  <Camera className="w-5 h-5" />
+                  {isZh ? "拍摄" : "Capture"}
+                </Button>
+                <Button size="lg" variant="outline" className="rounded-full px-6 sm:px-8 gap-2" onClick={handleUseUploadClick}>
+                  <Upload className="w-5 h-5" />
+                  {isZh ? "上传" : "Upload"}
+                </Button>
               </div>
+              <p className="text-xs sm:text-sm text-muted-foreground text-center px-4">{isZh ? "点击拍摄或上传以开始" : "Tap capture or upload to get started"}</p>
+              <input ref={fileInputRef} type="file" accept="image/jpeg,image/jpg,image/png" onChange={handleFileSelect} className="hidden" />
             </div>
-          ))}
-        </div>
+          )}
+          {(cameraError || error) && (
+            <div className="mt-4 flex items-center gap-2 text-destructive text-xs sm:text-sm p-3 bg-destructive/10 rounded-lg">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              {cameraError || error}
+            </div>
+          )}
+        </Card>
       </div>
     </section>
   );

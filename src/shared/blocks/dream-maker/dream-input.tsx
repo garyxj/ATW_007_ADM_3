@@ -2,12 +2,27 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Mic, MicOff, Sparkles, ArrowLeft, ArrowRight, Volume2 } from "lucide-react";
+import { Mic, MicOff, Sparkles, ArrowLeft, ArrowRight, Volume2, Rocket, Stethoscope, FlaskConical, Plane, ChefHat, Palette, Dumbbell, Music, BookOpen, Flame, Shield, Laptop, type LucideIcon } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { cn } from "@/shared/lib/utils";
 import { CAREER_PRESETS } from "@/shared/prompt/career-presets";
+
+const CAREER_ICONS: Record<string, LucideIcon> = {
+  astronaut: Rocket,
+  doctor: Stethoscope,
+  scientist: FlaskConical,
+  pilot: Plane,
+  chef: ChefHat,
+  artist: Palette,
+  athlete: Dumbbell,
+  musician: Music,
+  teacher: BookOpen,
+  firefighter: Flame,
+  police: Shield,
+  programmer: Laptop,
+};
 
 export default function DreamInput({ photo, onSubmit, onBack }: { photo: string | null; onSubmit: (dream: string, career: string) => void; onBack: () => void; }) {
   const t = useTranslations("dreammaker");
@@ -94,7 +109,10 @@ export default function DreamInput({ photo, onSubmit, onBack }: { photo: string 
                     }}
                     className={cn("flex flex-col items-center gap-1.5 sm:gap-2 p-2.5 sm:p-4 rounded-xl border-2 transition-all duration-300", selectedCareer === career.id ? "border-primary bg-primary/10 scale-105" : "border-border hover:border-primary/50 hover:bg-secondary")}
                   >
-                    <span className="text-xl sm:text-2xl">🎯</span>
+                    {(() => {
+                      const Icon = CAREER_ICONS[career.id] || Sparkles;
+                      return <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />;
+                    })()}
                     <span className="text-[10px] sm:text-xs font-medium text-foreground">{career.nameEn}</span>
                   </button>
                 ))}

@@ -17,7 +17,8 @@ export class ArkProvider implements AIProvider {
     if (params.mediaType !== AIMediaType.IMAGE) {
       throw new Error(`mediaType not supported: ${params.mediaType}`);
     }
-    const minPixels = 3686400;
+    // lower the minimum pixel area to reduce payload size and speed up upstream processing
+    const minPixels = 1048576; // ~1024x1024
     const parse = (s: string) => {
       const m = s.match(/^(\d+)x(\d+)$/);
       if (!m) return undefined;
@@ -35,9 +36,10 @@ export class ArkProvider implements AIProvider {
       const scale = Math.sqrt(minPixels / area);
       return format(p.w * scale, p.h * scale);
     };
-    const requestedSize = params.options?.size || process.env.ARK_IMAGE_SIZE || '1920x1920';
+    // default smaller size to further reduce payload/latency; env can override
+    const requestedSize = params.options?.size || process.env.ARK_IMAGE_SIZE || '1536x1536';
     const defaultSize = normalize(requestedSize);
-    const timeoutMs = Number(process.env.ARK_REQUEST_TIMEOUT_MS || 20000);
+    const timeoutMs = Number(process.env.ARK_REQUEST_TIMEOUT_MS || 40000);
 
     const call = async (size: string) => {
       const body = {
@@ -49,25 +51,40 @@ export class ArkProvider implements AIProvider {
       };
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
-      const resp = await fetch(this.baseUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.configs.apiKey}`,
-        },
-        body: JSON.stringify(body),
-        signal: controller.signal,
-      });
-      clearTimeout(timer);
-      const text = await resp.text();
-      return { resp, text };
+      try {
+        console.log('[ArkProvider] request', {
+          size,
+          promptLength: (params.prompt || '').length,
+          timeoutMs,
+        });
+        const resp = await fetch(this.baseUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.configs.apiKey}`,
+          },
+          body: JSON.stringify(body),
+          signal: controller.signal,
+        });
+        clearTimeout(timer);
+        const text = await resp.text();
+        console.log('[ArkProvider] response', { status: resp.status, ok: resp.ok });
+        return { resp, text };
+      } catch (err: any) {
+        clearTimeout(timer);
+        if (err?.name === 'AbortError') {
+          throw new Error(`Ark request aborted (timeout ${timeoutMs}ms). 考虑减小图片尺寸或提升 ARK_REQUEST_TIMEOUT_MS。`);
+        }
+        throw err;
+      }
     };
 
     const first = await call(defaultSize);
     let text = first.text;
     if (!first.resp.ok) {
       const status = first.resp.status;
-      const fallbackSize = normalize('2048x2048');
+      // fallback to a still-reasonable size, smaller than default to avoid repeated timeouts
+      const fallbackSize = normalize('1280x1280');
       if (status >= 500 || status === 504) {
         const second = await call(fallbackSize);
         text = second.text;

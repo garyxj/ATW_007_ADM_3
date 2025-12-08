@@ -5,6 +5,12 @@ import { AIMediaType } from '@/extensions/ai';
 export async function POST(req: Request) {
   try {
     const { imageBase64, prompt } = await req.json();
+
+    console.log('[seedream] incoming request', {
+      promptLength: prompt?.length ?? 0,
+      imageSize: imageBase64 ? imageBase64.length : 0,
+    });
+
     if (!imageBase64 || !prompt) {
       return NextResponse.json({ error: 'Missing required fields: imageBase64 and prompt' }, { status: 400 });
     }
@@ -21,6 +27,10 @@ export async function POST(req: Request) {
         prompt,
         options: { imageBase64, size: process.env.ARK_IMAGE_SIZE || '1920x1920' },
       },
+    }).catch((err) => {
+      console.error('[seedream] provider.generate error', err);
+      const msg = err?.message || 'Server error';
+      throw new Error(msg);
     });
 
     const rawUrl = result.taskInfo?.images?.[0]?.imageUrl;
@@ -38,10 +48,12 @@ export async function POST(req: Request) {
       const contentType = imageResp.headers.get('content-type') || 'image/png';
       const dataUrl = `data:${contentType};base64,${base64}`;
       return NextResponse.json({ status: 'SUCCEEDED', imageUrl: dataUrl });
-    } catch {
+    } catch (err) {
+      console.error('[seedream] image fetch failed, fallback to raw url', err);
       return NextResponse.json({ status: 'SUCCEEDED', imageUrl: rawUrl });
     }
   } catch (e: any) {
+    console.error('[seedream] route error', e);
     const msg = e?.message || 'Server error';
     return NextResponse.json({ error: msg }, { status: 500 });
   }

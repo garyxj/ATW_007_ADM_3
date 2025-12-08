@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { PageHeader } from '@/shared/blocks/common';
 import { MusicGenerator } from '@/shared/blocks/generator';
 import { getMetadata } from '@/shared/lib/seo';
-import { CTA, FAQ } from '@/themes/default/blocks';
+import { CTA } from '@/themes/default/blocks';
 
 export const generateMetadata = getMetadata({
   metadataKey: 'ai.music.metadata',
@@ -29,7 +29,6 @@ export default async function AiMusicGeneratorPage({
         className="mt-16 -mb-32"
       />
       <MusicGenerator srOnlyTitle={tt.raw('generator.title')} />
-      <FAQ faq={t.raw('faq')} />
       <CTA cta={t.raw('cta')} className="bg-muted" />
     </>
   );

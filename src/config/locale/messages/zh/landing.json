@@ -408,14 +408,7 @@
     "id": "cta",
     "title": "开启 Future Yourself 学习之旅",
     "description": "从这里开始，启发与引导孩子的职业兴趣。",
-    "buttons": [
-      {
-        "title": "阅读英文职业博客",
-        "url": "https://www.bbc.co.uk/bitesize/careers",
-        "target": "_blank",
-        "icon": "Zap"
-      }
-    ]
+    "buttons": []
   },
   "subscribe": {
     "id": "subscribe",
@@ -434,7 +427,7 @@
   "footer": {
     "id": "footer",
     "brand": {
-      "title": "",
+      "title": "Future Self Generator",
       "description": "以儿童职业教育为主题的站点，提供亲子活动、职业展示与学习资源，启发孩子的未来道路。",
       "logo": {
         "src": "/logo.png",

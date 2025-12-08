@@ -408,14 +408,7 @@
     "id": "cta",
     "title": "Start Your Future Yourself Journey",
     "description": "Begin here. Inspire and guide kids' career interests.",
-    "buttons": [
-      {
-        "title": "Explore English Career Blog",
-        "url": "https://www.bbc.co.uk/bitesize/careers",
-        "target": "_blank",
-        "icon": "Zap"
-      }
-    ]
+    "buttons": []
   },
   "subscribe": {
     "id": "subscribe",
@@ -434,7 +427,7 @@
   "footer": {
     "id": "footer",
     "brand": {
-      "title": "",
+      "title": "Future Self Generator",
       "description": "A theme for children's career education. Activities, showcases and resources to inspire future paths.",
       "logo": {
         "src": "/logo.png",

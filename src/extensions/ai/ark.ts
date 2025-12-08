@@ -17,7 +17,26 @@ export class ArkProvider implements AIProvider {
     if (params.mediaType !== AIMediaType.IMAGE) {
       throw new Error(`mediaType not supported: ${params.mediaType}`);
     }
-    const defaultSize = params.options?.size || process.env.ARK_IMAGE_SIZE || '1024x1024';
+    const minPixels = 3686400;
+    const parse = (s: string) => {
+      const m = s.match(/^(\d+)x(\d+)$/);
+      if (!m) return undefined;
+      const w = Number(m[1]);
+      const h = Number(m[2]);
+      if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) return undefined;
+      return { w, h };
+    };
+    const format = (w: number, h: number) => `${Math.max(1, Math.round(w))}x${Math.max(1, Math.round(h))}`;
+    const normalize = (s: string) => {
+      const p = parse(s);
+      if (!p) return '1920x1920';
+      const area = p.w * p.h;
+      if (area >= minPixels) return format(p.w, p.h);
+      const scale = Math.sqrt(minPixels / area);
+      return format(p.w * scale, p.h * scale);
+    };
+    const requestedSize = params.options?.size || process.env.ARK_IMAGE_SIZE || '1920x1920';
+    const defaultSize = normalize(requestedSize);
     const timeoutMs = Number(process.env.ARK_REQUEST_TIMEOUT_MS || 20000);
 
     const call = async (size: string) => {
@@ -48,7 +67,7 @@ export class ArkProvider implements AIProvider {
     let text = first.text;
     if (!first.resp.ok) {
       const status = first.resp.status;
-      const fallbackSize = defaultSize === '1024x1024' ? '768x768' : defaultSize;
+      const fallbackSize = normalize('2048x2048');
       if (status >= 500 || status === 504) {
         const second = await call(fallbackSize);
         text = second.text;

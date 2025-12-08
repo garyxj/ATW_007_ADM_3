@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       params: {
         mediaType: AIMediaType.IMAGE,
         prompt,
-        options: { imageBase64, size: process.env.ARK_IMAGE_SIZE || '1024x1024' },
+        options: { imageBase64, size: process.env.ARK_IMAGE_SIZE || '1920x1920' },
       },
     });
 

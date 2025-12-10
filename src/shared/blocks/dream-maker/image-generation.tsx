@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { Loader2, Sparkles, ArrowLeft, RefreshCw, AlertCircle } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
-import type { DreamData } from "@/app/[locale]/(landing)/dream-maker/page";
+import type { DreamData } from "@/app/[locale]/(landing)/dream-maker/client-page";
 import { buildCareerHeadshotPrompt } from "@/shared/prompt/builder";
 
 function useGenSteps(t: (k: string) => string) {

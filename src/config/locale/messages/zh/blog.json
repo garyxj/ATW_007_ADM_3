@@ -13,6 +13,14 @@
     "all": "全部",
     "no_content": "暂无内容",
     "crumb": "博客",
-    "toc": "目录"
+    "toc": "目录",
+    "home": "首页",
+    "cta_title": "试用梦想制造机",
+    "cta_desc": "生成未来职业肖像，让阅读转化为实践。",
+    "cta_button": "前往 Dream Maker",
+    "cta_home": "返回首页",
+    "cta_blog": "返回博客",
+    "related": "相关文章",
+    "more_posts": "更多文章"
   }
 }

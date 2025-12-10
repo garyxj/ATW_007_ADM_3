@@ -4,9 +4,11 @@ import { BlogDetail } from '@/themes/default/blocks';
 export default async function BlogDetailPage({
   locale,
   post,
+  relatedPosts,
 }: {
   locale?: string;
   post: PostType;
+  relatedPosts?: PostType[];
 }) {
-  return <BlogDetail post={post} />;
+  return <BlogDetail post={post} relatedPosts={relatedPosts} />;
 }

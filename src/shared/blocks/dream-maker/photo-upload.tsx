@@ -228,16 +228,16 @@ export default function PhotoUpload({ onPhotoUpload }: { onPhotoUpload: (photo: 
                 </div>
               )}
 
-              <div
-                onDrop={handleDrop}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
+            <div
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
                 className={cn("flex flex-col items-center justify-center gap-3 sm:gap-4 p-5 sm:p-6 border border-dashed rounded-2xl transition-all duration-300 cursor-pointer group", isDragging ? "border-primary bg-primary/5" : "border-border hover:border-primary/50 hover:bg-secondary/50")}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  fileInputRef.current?.click();
-                }}
-              >
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    fileInputRef.current?.click();
+                  }}
+                >
                 <div className="flex items-center gap-2 text-sm sm:text-base text-foreground">
                   <Upload className="w-4 h-4" />
                   <span>{textUploadHint}</span>

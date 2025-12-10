@@ -22,14 +22,14 @@
           "icon": "Box"
         },
         {
-          "title": "Pricing",
-          "url": "/pricing",
-          "icon": "DollarSign"
-        },
-        {
           "title": "Blog",
           "url": "/blog",
           "icon": "Newspaper"
+        },
+        {
+          "title": "Pricing",
+          "url": "/pricing",
+          "icon": "DollarSign"
         }
       ]
   },
@@ -456,6 +456,11 @@
         {
           "title": "Resources",
           "children": [
+            {
+              "title": "Dream Maker",
+              "url": "/dream-maker",
+              "target": "_self"
+            },
             {
               "title": "Blog",
               "url": "/blog",

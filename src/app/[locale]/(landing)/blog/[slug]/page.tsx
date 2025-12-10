@@ -3,7 +3,8 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getThemePage } from '@/core/theme';
 import { envConfigs } from '@/config';
 import { Empty } from '@/shared/blocks/common';
-import { getPost } from '@/shared/models/post';
+import { getPost, getPostsAndCategories } from '@/shared/models/post';
+import { Post as PostType } from '@/shared/types/blocks/blog';
 
 export async function generateMetadata({
   params,
@@ -55,7 +56,22 @@ export default async function BlogDetailPage({
     return <Empty message={`Post not found`} />;
   }
 
+  let relatedPosts: PostType[] = [];
+  try {
+    const { posts } = await getPostsAndCategories({
+      locale,
+      page: 1,
+      limit: 8,
+    });
+    relatedPosts =
+      posts
+        ?.filter((item) => item.slug !== slug)
+        .slice(0, 3) || [];
+  } catch (error) {
+    console.log('getting related posts failed:', error);
+  }
+
   const Page = await getThemePage('blog-detail');
 
-  return <Page locale={locale} post={post} />;
+  return <Page locale={locale} post={post} relatedPosts={relatedPosts} />;
 }

@@ -50,6 +50,23 @@ export function Blog({
       </div>
 
       <div className="container flex flex-col items-center gap-8 lg:px-16">
+        <div className="bg-muted border-border/60 w-full max-w-5xl rounded-2xl border px-6 py-5 shadow-sm">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="min-w-0 flex-1 space-y-1">
+              <p className="text-sm font-semibold leading-tight">{t('cta_title')}</p>
+              <p className="text-muted-foreground text-sm leading-snug">
+                {t('cta_desc')}
+              </p>
+            </div>
+            <Link
+              href="/dream-maker"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
+            >
+              {t('cta_button')}
+            </Link>
+          </div>
+        </div>
+
         {blog.categories && blog.categories.length > 0 && (
           <div className="mb-2 flex flex-wrap items-center justify-center gap-4">
             <Tabs tabs={tabs} />

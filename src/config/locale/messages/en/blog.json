@@ -13,6 +13,14 @@
     "all": "All",
     "no_content": "No Content",
     "crumb": "Blog",
-    "toc": "Table of Contents"
+    "toc": "Table of Contents",
+    "home": "Home",
+    "cta_title": "Try Dream Maker",
+    "cta_desc": "Create AI future-self portraits and turn reading into action.",
+    "cta_button": "Open Dream Maker",
+    "cta_home": "Back to Home",
+    "cta_blog": "Back to Blog",
+    "related": "Related posts",
+    "more_posts": "More articles"
   }
 }

@@ -4,6 +4,7 @@ import { TOCItems, TOCProvider } from 'fumadocs-ui/components/layout/toc';
 import { CalendarIcon, ListIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { Link } from '@/core/i18n/navigation';
 import { MarkdownPreview } from '@/shared/blocks/common';
 import { Crumb } from '@/shared/blocks/common/crumb';
 import { type Post as PostType } from '@/shared/types/blocks/blog';
@@ -11,10 +12,22 @@ import { NavItem } from '@/shared/types/blocks/common';
 
 import '@/config/style/docs.css';
 
-export function BlogDetail({ post }: { post: PostType }) {
+export function BlogDetail({
+  post,
+  relatedPosts,
+}: {
+  post: PostType;
+  relatedPosts?: PostType[];
+}) {
   const t = useTranslations('blog.page');
 
   const crumbItems: NavItem[] = [
+    {
+      title: t('home'),
+      url: '/',
+      icon: 'Home',
+      is_active: false,
+    },
     {
       title: t('crumb'),
       url: '/blog',
@@ -59,6 +72,34 @@ export function BlogDetail({ post }: { post: PostType }) {
                     <CalendarIcon className="size-4" /> {post.created_at}
                   </div>
                 )}
+              </div>
+            </div>
+
+            {/* Primary CTA */}
+            <div className="bg-muted/40 border-border/70 mx-auto mt-10 max-w-5xl rounded-2xl border px-6 py-5 shadow-sm">
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="min-w-0 flex-1 space-y-1 text-left">
+                  <p className="text-sm font-semibold leading-tight">
+                    {t('cta_title')}
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-snug">
+                    {t('cta_desc')}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Link
+                    href="/dream-maker"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
+                  >
+                    {t('cta_button')}
+                  </Link>
+                  <Link
+                    href="/"
+                    className="text-muted-foreground hover:text-primary inline-flex items-center text-sm font-medium"
+                  >
+                    {t('cta_home')}
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -125,6 +166,69 @@ export function BlogDetail({ post }: { post: PostType }) {
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* Related posts */}
+            {relatedPosts && relatedPosts.length > 0 ? (
+              <div className="mx-auto mt-12 max-w-5xl">
+                <div className="border-border/70 bg-background rounded-2xl border px-6 py-5 shadow-sm">
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <h3 className="text-lg font-semibold">{t('related')}</h3>
+                    <Link
+                      href="/blog"
+                      className="text-primary hover:text-primary/80 text-sm font-medium"
+                    >
+                      {t('more_posts')}
+                    </Link>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {relatedPosts.slice(0, 3).map((item, idx) => (
+                      <Link
+                        key={idx}
+                        href={item.url || `/blog/${item.slug}`}
+                        className="hover:border-primary/40 hover:shadow-md border-border/60 rounded-xl border p-4 transition"
+                      >
+                        <p className="text-sm font-semibold line-clamp-2">
+                          {item.title}
+                        </p>
+                        {item.description ? (
+                          <p className="text-muted-foreground mt-2 text-sm line-clamp-3">
+                            {item.description}
+                          </p>
+                        ) : null}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {/* Bottom CTA */}
+            <div className="border-border/70 bg-muted/40 mx-auto mt-12 max-w-5xl rounded-2xl border px-6 py-6 shadow-sm">
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="min-w-0 flex-1 space-y-1 text-left">
+                  <p className="text-sm font-semibold leading-tight">
+                    {t('cta_title')}
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-snug">
+                    {t('cta_desc')}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Link
+                    href="/dream-maker"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
+                  >
+                    {t('cta_button')}
+                  </Link>
+                  <Link
+                    href="/blog"
+                    className="text-muted-foreground hover:text-primary inline-flex items-center text-sm font-medium"
+                  >
+                    {t('cta_blog')}
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
